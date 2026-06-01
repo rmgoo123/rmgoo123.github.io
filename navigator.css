@@ -200,7 +200,7 @@ body {
   background: rgba(201,169,110,0.05);
 }
 .field select option  { background: var(--forest); color: var(--gold); }
-.field textarea       { resize: none; height: 60px; font-size: 12px; color: rgba(201,169,110,0.45); line-height: 1.5; }
+.field textarea       { resize: none; height: 60px; font-size: 12px; color: var(--gold); line-height: 1.5; }
 .field textarea::placeholder { color: rgba(201,169,110,0.22); }
 
 /* 분석 버튼 */
@@ -408,6 +408,11 @@ body {
   .topbar-title { display: none; }
   .topbar { padding: 12px 16px; }
   .input-inner { padding: 20px 16px; }
+
+  /* 결과 헤더 상단 여백 추가 */
+  .result-header {
+    margin-top: 24px;
+    padding-top: 4px;
 }
 
 
