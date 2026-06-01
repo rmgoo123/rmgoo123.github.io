@@ -339,6 +339,16 @@ body {
    ───────────────────────────────────────────── */
 @media (max-width: 768px) {
 
+
+     .main {
+    overflow: visible;
+  }
+
+  /* bottom-bar를 고정이 아닌 일반 흐름으로 */
+  .bottom-bar {
+    position: relative;
+    bottom: auto;
+  }
   /* 진행 단계: 레이블 숨기고 원만 표시 */
   .ps-label { display: none; }
   .progress-line { margin-bottom: 0; }
@@ -374,15 +384,7 @@ body {
   .bottom-cta { width: 100%; text-align: center; }
   .bottom-tags { display: none; } /* 모바일에서 태그 숨김 */
 
-     /* 하단 바가 버튼을 가리지 않도록 고정 해제 */
-     .bottom-bar {
-    position: static;
-  }
 
-  /* 하단 바 높이만큼 여백 추가 */
-  .result-panel {
-    padding-bottom: 0;
-  }
 }
 
 /* 아주 좁은 화면 (400px 이하) */
