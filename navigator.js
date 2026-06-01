@@ -285,8 +285,14 @@ function showResults() {
 
   /* 태그 */
   document.getElementById('result-tags').innerHTML = `
-    <span class="rtag hi">예상 ${d.totalWeeks}</span>
-    <span class="rtag">총 ${d.steps.length}단계</span>
+  <div class="pill">
+    <div class="pill-icon"></div>
+    <div class="pill-text">예상 ${d.totalWeeks}</div>
+  </div>
+  <div class="pill">
+    <div class="pill-icon"></div>
+    <div class="pill-text">총 ${d.steps.length}단계</div>
+  </div>
   `;
 
   /* 절차 목록 */
