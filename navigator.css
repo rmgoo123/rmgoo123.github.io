@@ -373,6 +373,16 @@ body {
   .bottom-bar { flex-direction: column; align-items: flex-start; padding: 16px; gap: 10px; }
   .bottom-cta { width: 100%; text-align: center; }
   .bottom-tags { display: none; } /* 모바일에서 태그 숨김 */
+
+     /* 하단 바가 버튼을 가리지 않도록 고정 해제 */
+     .bottom-bar {
+    position: static;
+  }
+
+  /* 하단 바 높이만큼 여백 추가 */
+  .result-panel {
+    padding-bottom: 0;
+  }
 }
 
 /* 아주 좁은 화면 (400px 이하) */
