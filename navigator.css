@@ -261,15 +261,28 @@ body {
 }
 .result-title { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--forest); }
 .result-tags  { display: flex; gap: 8px; flex-wrap: wrap; }
-.rtag {
-  font-size: 11px; padding: 4px 12px;
-  border-radius: 20px;
-  border: 0.5px solid var(--forest-border);
-  color: rgba(13,43,32,0.45);
-  background: var(--forest-faint);
-}
-.rtag.hi { background: var(--forest); color: var(--gold); border-color: var(--forest); }
 
+/* 알약 뱃지 */
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--forest);
+  border-radius: 20px;
+  padding: 5px 12px;
+}
+.pill-icon {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+.pill-text {
+  font-size: 12px;
+  color: var(--gold);
+  white-space: nowrap;
+}
 /* 카드 그리드: 기본 2열 */
 .cards {
   display: grid;
