@@ -274,6 +274,8 @@ function showResults() {
   const key = getDataKey();
   const d   = DATA[key] || DATA['default'];
 
+   document.getElementById('result-panel').classList.add('has-result');
+
   /* 빈 상태 숨기고 결과 표시 */
   document.getElementById('empty-state').style.display  = 'none';
   document.getElementById('result-content').classList.remove('hidden');
