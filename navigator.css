@@ -152,7 +152,7 @@ body {
   border-right: 0.5px solid rgba(201,169,110,0.08);
 }
 .input-inner {
-  padding: 24px 22px;
+  padding: 0px 22px 24px; /* 위 패딩 0으로 */
   display: flex;
   flex-direction: column;
   gap: 18px;
