@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YEONBRIDGE — AI Navigator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="navigator.css">
+</head>
+<body>
+<!-- 전체 페이지 래퍼 -->
+<div class="page">
+
+  <!-- ── TOPBAR ── -->
+  <header class="topbar">
+    <a href="index.html" class="topbar-logo">
+      <span class="logo-text">YEONBRIDGE</span>
+      <span class="logo-sub">MARRIAGE CONCIERGE</span>
+    </a>
+    <div class="topbar-center">
+      <span class="topbar-title">국제결혼 절차 · 비용 AI 탐색기</span>
+    </div>
+    <div class="ai-badge">AI NAVIGATOR</div>
+  </header>
+
+  <!-- ── 진행 단계 표시 (상단 중앙) ── -->
+  <div class="progress-bar-wrap">
+    <div class="progress-track">
+      <div class="progress-step" id="ps1">
+        <div class="ps-circle done" id="sc1">✓</div>
+        <div class="ps-label" id="sl1">국가 선택</div>
+      </div>
+      <div class="progress-line" id="pl1"></div>
+      <div class="progress-step" id="ps2">
+        <div class="ps-circle active" id="sc2">2</div>
+        <div class="ps-label active" id="sl2">상황 입력</div>
+      </div>
+      <div class="progress-line" id="pl2"></div>
+      <div class="progress-step" id="ps3">
+        <div class="ps-circle todo" id="sc3">3</div>
+        <div class="ps-label" id="sl3">결과 확인</div>
+      </div>
+      <div class="progress-line" id="pl3"></div>
+      <div class="progress-step" id="ps4">
+        <div class="ps-circle todo" id="sc4">4</div>
+        <div class="ps-label" id="sl4">매니저 연결</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MAIN: 입력 + 결과 ── -->
+  <div class="main">
+
+    <!-- 입력 패널 -->
+    <aside class="input-panel">
+      <div class="input-inner">
+
+        <div class="input-section-title">두 분의 상황을 알려주세요</div>
+        <div class="input-section-sub">정확한 절차와 비용 안내를 위해 필요해요</div>
+
+        <div class="fields">
+
+          <!-- 파트너 A 국적 -->
+          <div class="field">
+            <div class="field-label">파트너 A 국적</div>
+            <select id="f-partner-a">
+              <option value="korea">🇰🇷 한국</option>
+              <option value="indonesia">🇮🇩 인도네시아</option>
+              <option value="vietnam">🇻🇳 베트남</option>
+              <option value="philippines">🇵🇭 필리핀</option>
+              <option value="thailand">🇹🇭 태국</option>
+              <option value="china">🇨🇳 중국</option>
+              <option value="japan">🇯🇵 일본</option>
+              <option value="usa">🇺🇸 미국</option>
+              <option value="other">🌍 기타 국가</option>
+            </select>
+          </div>
+
+          <!-- 파트너 B 국적 -->
+          <div class="field">
+            <div class="field-label">파트너 B 국적</div>
+            <select id="f-partner-b">
+              <option value="indonesia">🇮🇩 인도네시아</option>
+              <option value="vietnam">🇻🇳 베트남</option>
+              <option value="philippines">🇵🇭 필리핀</option>
+              <option value="thailand">🇹🇭 태국</option>
+              <option value="china">🇨🇳 중국</option>
+              <option value="japan">🇯🇵 일본</option>
+              <option value="usa">🇺🇸 미국</option>
+              <option value="korea">🇰🇷 한국</option>
+              <option value="other">🌍 기타 국가</option>
+            </select>
+          </div>
+
+          <!-- 정착 목표 국가 -->
+          <div class="field">
+            <div class="field-label">정착 희망 국가</div>
+            <select id="f-settle">
+              <option value="korea">🇰🇷 한국에서 함께 살 예정</option>
+              <option value="foreign">🌍 상대국에서 함께 살 예정</option>
+              <option value="undecided">미정 / 아직 모름</option>
+            </select>
+          </div>
+
+          <!-- 현재 거주지 -->
+          <div class="field">
+            <div class="field-label">현재 두 분의 거주지</div>
+            <select id="f-location">
+              <option value="same">같은 나라에 살고 있음</option>
+              <option value="diff-a">A 파트너 나라에 각각 거주 중</option>
+              <option value="diff-b">B 파트너 나라에 각각 거주 중</option>
+              <option value="long">장거리 연애 중</option>
+            </select>
+          </div>
+
+          <!-- 비자 상태 -->
+          <div class="field">
+            <div class="field-label">외국인 파트너 비자 상태</div>
+            <select id="f-visa">
+              <option value="tourist">관광비자 (단기)</option>
+              <option value="none">아직 미입국</option>
+              <option value="student">학생비자</option>
+              <option value="work">취업비자</option>
+              <option value="marriage">결혼·거주비자 보유</option>
+              <option value="both">둘 다 외국인 (제3국 거주)</option>
+            </select>
+          </div>
+
+          <!-- 특이사항 -->
+          <div class="field">
+            <div class="field-label">특이사항 <span class="optional">선택</span></div>
+            <textarea id="f-note" placeholder="예: 이전 결혼 이력 / 비자 만료 임박 / 둘 다 외국인이에요..."></textarea>
+          </div>
+        </div>
+
+        <button class="analyze-btn" id="analyze-btn" onclick="runAnalysis()">
+          <span class="btn-text">✦ AI로 절차 분석하기</span>
+          <span class="spinner"></span>
+        </button>
+
+      </div>
+    </aside>
+
+    <!-- 결과 패널 -->
+    <section class="result-panel" id="result-panel">
+
+      <!-- 빈 상태 -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <svg width="64" height="44" viewBox="0 0 64 44" fill="none">
+            <path d="M2 40 A32 30 0 0 1 27 6" stroke="#0D2B20" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+            <path d="M37 6 A32 30 0 0 1 62 40" stroke="#0D2B20" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+            <circle cx="27" cy="5" r="5" fill="#C9A96E"/>
+            <circle cx="37" cy="5" r="5" fill="#C9A96E"/>
+            <line x1="2" y1="40" x2="62" y2="40" stroke="#C9A96E" stroke-width="1" opacity="0.4"/>
+          </svg>
+        </div>
+        <p class="empty-title">왼쪽에서 상황을 입력하고<br>분석을 실행해주세요</p>
+        <p class="empty-hint">국적 · 거주지 · 비자 정보를 선택하면<br>맞춤 절차와 예상 비용을 안내드려요</p>
+      </div>
+
+      <!-- 결과 콘텐츠 -->
+      <div class="result-content hidden" id="result-content">
+
+        <div class="result-header">
+          <div class="result-title" id="result-title">—</div>
+          <div class="result-tags" id="result-tags"></div>
+        </div>
+
+        <div class="cards">
+          <!-- 절차 카드 -->
+          <div class="card">
+            <div class="card-label">필요 절차</div>
+            <div id="proc-list"></div>
+          </div>
+
+          <!-- 비용 + 기간 카드 -->
+          <div class="card">
+            <div class="card-label">예상 총 비용</div>
+            <div class="cost-big" id="cost-big">—</div>
+            <div class="cost-sub">직접비용 기준 · 컨설팅 수수료 별도</div>
+            <div class="card-label" style="margin-top:14px">단계별 소요 기간</div>
+            <div id="bar-list"></div>
+          </div>
+
+          <!-- 서류 카드 (넓게) -->
+          <div class="card card-wide">
+            <div class="card-label">필요 서류 목록</div>
+            <div class="docs-grid" id="docs-list"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- ── 하단 바 ── -->
+  <footer class="bottom-bar" id="bottom-bar">
+    <div class="bottom-total">
+      <span class="bottom-label">총 예상 기간</span>
+      <span class="bottom-val" id="total-period">—</span>
+    </div>
+    <div class="bottom-tags" id="bottom-tags"></div>
+    <button class="bottom-cta" onclick="alert('전담 매니저 상담 신청 페이지로 이동합니다.')">
+      전담 매니저 무료 상담 →
+    </button>
+  </footer>
+
+</div>
+<script src="navigator.js"></script>
+</body>
+</html>
