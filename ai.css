@@ -1,0 +1,340 @@
+/* =============================================
+   YEONBRIDGE AI Navigator — style.css
+   index.html에서 <link rel="stylesheet" href="style.css">로 불러옴
+   ============================================= */
+
+
+/* ─────────────────────────────────────────────
+   CSS 변수 (디자인 토큰)
+   전체 색상·폰트를 한 곳에서 관리
+   수정이 필요하면 여기 값만 바꾸면 전체 반영됨
+   ───────────────────────────────────────────── */
+:root {
+  --forest: #0D2B20;                       /* 메인 컬러: 딥 포레스트 그린 */
+  --gold: #C9A96E;                          /* 포인트 컬러: 골드 */
+  --cream: #F4F0E6;                         /* 배경 컬러: 크림 */
+  --gold-faint: rgba(201,169,110,0.10);    /* 골드 투명 배경 (뱃지·hover용) */
+  --gold-border: rgba(201,169,110,0.22);   /* 골드 테두리 */
+  --forest-faint: rgba(13,43,32,0.06);     /* 포레스트 투명 배경 */
+  --forest-border: rgba(13,43,32,0.12);    /* 포레스트 테두리 */
+  --serif: 'Playfair Display', serif;      /* 로고·타이틀용 세리프 폰트 */
+  --sans: 'Noto Sans KR', sans-serif;      /* 본문 한글 폰트 */
+}
+
+
+/* ─────────────────────────────────────────────
+   전역 리셋 & 기본 레이아웃
+   ───────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--forest);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ─────────────────────────────────────────────
+   TOPBAR — 최상단 헤더
+   왼쪽: 로고 / 오른쪽: 페이지 제목 + AI 뱃지
+   ───────────────────────────────────────────── */
+.topbar {
+  background: var(--forest);
+  display: grid;
+  grid-template-columns: 280px 1fr; /* 왼쪽 패널 너비와 맞춤 */
+  flex-shrink: 0;
+}
+.topbar-logo {
+  padding: 20px 28px;
+  border-right: 0.5px solid rgba(201,169,110,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.logo     { font-family: var(--serif); font-size: 19px; color: var(--gold); letter-spacing: 4px; }
+.logo-sub { font-size: 9.5px; color: rgba(201,169,110,0.38); letter-spacing: 2.5px; }
+.topbar-right {
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.topbar-title { font-size: 13px; color: rgba(201,169,110,0.65); letter-spacing: 0.3px; }
+
+/* AI NAVIGATOR 뱃지: 둥근 알약 모양 */
+.ai-badge {
+  font-size: 10px;
+  background: var(--gold-faint);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: 2px;
+}
+
+
+/* ─────────────────────────────────────────────
+   LEFT PANEL — 입력 위저드 (다크 배경)
+   ───────────────────────────────────────────── */
+.left {
+  background: var(--forest);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-right: 0.5px solid rgba(201,169,110,0.08);
+  overflow-y: auto;
+}
+
+/* ── 스텝 네비게이션 ── */
+.step-nav { display: flex; flex-direction: column; }
+.snav-item { display: flex; gap: 13px; position: relative; }
+.snav-item:not(:last-child) .snav-text { padding-bottom: 18px; }
+
+/* 스텝 사이 세로 연결선 */
+.snav-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 14px; top: 30px;
+  width: 1px; bottom: 0;
+  background: rgba(201,169,110,0.1);
+}
+
+/* 스텝 원형 아이콘: done(완료) / active(현재) / todo(미완) */
+.snav-circle {
+  width: 29px; height: 29px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 500;
+  flex-shrink: 0; z-index: 1;
+  transition: all 0.3s;
+}
+.snav-circle.done   { background: var(--gold); color: var(--forest); }
+.snav-circle.active { background: var(--gold-faint); border: 1.5px solid var(--gold); color: var(--gold); }
+.snav-circle.todo   { background: rgba(255,255,255,0.03); border: 0.5px solid rgba(201,169,110,0.12); color: rgba(201,169,110,0.25); }
+
+.snav-label        { font-size: 12px; color: rgba(201,169,110,0.45); line-height: 1.9; transition: color 0.3s; }
+.snav-label.active { color: var(--gold); font-weight: 500; }
+.snav-desc         { font-size: 10.5px; color: rgba(201,169,110,0.25); line-height: 1.5; transition: color 0.3s; }
+.snav-desc.active  { color: rgba(201,169,110,0.45); }
+
+/* ── 입력 필드 ── */
+.fields { display: flex; flex-direction: column; gap: 13px; }
+.field  { display: flex; flex-direction: column; gap: 5px; }
+.field-label {
+  font-size: 9.5px; font-weight: 500;
+  letter-spacing: 0.12em;
+  color: rgba(201,169,110,0.38);
+  text-transform: uppercase;
+}
+.field select,
+.field textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: 8px;
+  padding: 10px 13px;
+  font-size: 12.5px;
+  color: var(--gold);
+  font-family: var(--sans);
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  width: 100%;
+}
+.field select:hover, .field textarea:hover { border-color: rgba(201,169,110,0.3); }
+.field select:focus, .field textarea:focus {
+  outline: none;
+  border-color: rgba(201,169,110,0.55);
+  background: rgba(201,169,110,0.05);
+}
+.field textarea        { resize: none; height: 62px; line-height: 1.5; color: rgba(201,169,110,0.45); font-size: 12px; }
+.field textarea::placeholder { color: rgba(201,169,110,0.25); }
+.field select option   { background: var(--forest); color: var(--gold); }
+
+/* ── 분석 버튼 + 로딩 스피너 ── */
+.analyze-btn {
+  background: var(--gold); color: var(--forest);
+  border: none; border-radius: 9px;
+  padding: 13px 18px;
+  font-size: 13px; font-weight: 500;
+  font-family: var(--sans); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: opacity 0.2s, transform 0.15s;
+  letter-spacing: 0.03em;
+}
+.analyze-btn:hover  { opacity: 0.9; transform: translateY(-1px); }
+.analyze-btn:active { transform: translateY(0); }
+
+/* 스피너: 위쪽 테두리만 진하게 → 회전 시 원 도는 효과 */
+.analyze-btn .spinner {
+  display: none;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(13,43,32,0.3);
+  border-top-color: var(--forest);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+/* .loading 상태: 텍스트 숨기고 스피너 표시 */
+.analyze-btn.loading .btn-text { display: none; }
+.analyze-btn.loading .spinner  { display: block; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+
+/* ─────────────────────────────────────────────
+   RIGHT PANEL — 결과 대시보드 (크림 배경)
+   ───────────────────────────────────────────── */
+.right {
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  background: var(--cream);
+}
+
+/* ── 빈 상태: 분석 전 안내 화면 ──
+   JS에서 분석 완료 후 display:none 처리 */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 60px 0;
+}
+.empty-state p     { font-size: 14px; color: rgba(13,43,32,0.35); text-align: center; line-height: 1.7; }
+.empty-state .hint { font-size: 12px; color: rgba(13,43,32,0.25); text-align: center; }
+
+/* ── 결과 헤더: 분석 후 페이드인 ──
+   기본 숨김 상태 → JS에서 .show 추가 시 나타남 */
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.result-header.show { opacity: 1; transform: translateY(0); }
+.result-title { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--forest); }
+
+.rtags { display: flex; gap: 8px; flex-wrap: wrap; }
+.rtag {
+  font-size: 11px; padding: 4px 12px;
+  border-radius: 20px;
+  border: 0.5px solid var(--forest-border);
+  color: rgba(13,43,32,0.45);
+  background: var(--forest-faint);
+}
+.rtag.hi { background: var(--forest); color: var(--gold); border-color: var(--forest); }
+
+/* ── 카드 그리드: .show 추가 시 페이드인 (헤더보다 0.1s 늦게) ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+}
+.cards-grid.show { opacity: 1; transform: translateY(0); }
+
+.card { background: #fff; border: 0.5px solid var(--forest-border); border-radius: 14px; padding: 20px 22px; }
+.card.wide { grid-column: span 2; } /* 서류 카드: 2열 전체 */
+.card-label {
+  font-size: 9.5px; font-weight: 500;
+  letter-spacing: 0.14em;
+  color: rgba(13,43,32,0.32);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+/* ── 절차 카드 단계 행 ── */
+.proc-row {
+  display: flex; align-items: center; gap: 11px;
+  padding: 10px 0;
+  border-bottom: 0.5px solid rgba(13,43,32,0.05);
+}
+.proc-row:last-child { border-bottom: none; padding-bottom: 0; }
+.proc-num {
+  width: 26px; height: 26px;
+  background: var(--forest); border-radius: 50%;
+  color: var(--gold); font-size: 11px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.proc-text  { font-size: 13px; color: var(--forest); flex: 1; line-height: 1.4; }
+.proc-time  { font-size: 11px; color: rgba(13,43,32,0.38); white-space: nowrap; margin-right: 4px; }
+.proc-price {
+  font-size: 11px; color: var(--gold);
+  background: rgba(201,169,110,0.1);
+  padding: 2px 9px; border-radius: 4px;
+  white-space: nowrap;
+  border: 0.5px solid rgba(201,169,110,0.2);
+}
+
+/* ── 비용·기간 카드 ── */
+.cost-big { font-family: var(--serif); font-size: 32px; color: var(--forest); margin: 2px 0; }
+.cost-sub { font-size: 11px; color: rgba(13,43,32,0.35); margin-bottom: 16px; }
+.bar-row  { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.bar-name { font-size: 11px; color: rgba(13,43,32,0.42); width: 68px; flex-shrink: 0; }
+.bar-wrap { flex: 1; height: 4px; background: rgba(13,43,32,0.06); border-radius: 2px; }
+
+/* 막대 채움: JS에서 data-w로 width 설정, CSS transition으로 애니메이션 */
+.bar-fill { height: 4px; background: var(--forest); border-radius: 2px; width: 0; transition: width 0.8s ease; }
+.bar-val  { font-size: 11px; color: rgba(13,43,32,0.42); width: 36px; text-align: right; }
+
+/* ── 서류 목록 카드 ── */
+.docs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+.doc-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 0;
+  border-bottom: 0.5px solid rgba(13,43,32,0.05);
+}
+.doc-row:last-child { border-bottom: none; }
+.doc-dot  { width: 5px; height: 5px; border-radius: 50%; background: var(--forest); opacity: 0.35; flex-shrink: 0; }
+.doc-name { font-size: 12px; color: var(--forest); flex: 1; }
+.doc-badge { font-size: 10px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.doc-badge.req { background: rgba(13,43,32,0.07); color: rgba(13,43,32,0.65); }
+.doc-badge.opt { background: rgba(201,169,110,0.1); color: rgba(13,43,32,0.5); }
+
+
+/* ─────────────────────────────────────────────
+   BOTTOM BAR — 최하단 요약 바
+   총 기간 + 비용 태그 + 매니저 상담 CTA
+   ───────────────────────────────────────────── */
+.bottom-bar {
+  background: var(--forest);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+}
+.bottom-total       { display: flex; align-items: baseline; gap: 12px; }
+.bottom-total-label { font-size: 10px; color: rgba(201,169,110,0.42); letter-spacing: 1.5px; text-transform: uppercase; }
+.bottom-total-val   { font-family: var(--serif); font-size: 20px; color: var(--gold); }
+.bottom-tags { display: flex; gap: 8px; }
+.bottom-tag {
+  font-size: 11px; color: rgba(201,169,110,0.52);
+  background: rgba(201,169,110,0.06);
+  padding: 6px 14px; border-radius: 6px;
+  border: 0.5px solid rgba(201,169,110,0.12);
+}
+.bottom-cta {
+  background: var(--gold); color: var(--forest);
+  border: none; border-radius: 8px;
+  padding: 10px 22px; font-size: 13px; font-weight: 500;
+  font-family: var(--sans); cursor: pointer;
+  transition: opacity 0.2s; letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.bottom-cta:hover { opacity: 0.88; }
