@@ -175,7 +175,7 @@ const maxWeeks = Math.max(...steps.map(s => parseWeeks(s.duration)));
 
 document.getElementById('bar-list').innerHTML = steps.map(s => `
   <div class="bar-row">
-    <div class="bar-name">${s.step_text.substring(0, 4)}</div>
+    <div class="bar-name">${s.step_text.substring(0, 8)}</div>
     <div class="bar-wrap">
       <div class="bar-fill" style="width:${(parseWeeks(s.duration) / maxWeeks * 100).toFixed(0)}%"></div>
     </div>
