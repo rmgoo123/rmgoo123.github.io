@@ -197,4 +197,13 @@ document.getElementById('bar-list').innerHTML = steps.map(s => `
 
   // 패널 클래스 추가
   document.getElementById('result-panel').classList.add('has-result');
+
+   if (steps.length === 0) {
+  document.getElementById('proc-list').innerHTML = `
+    <div style="font-size:13px; color:rgba(13,43,32,0.4); padding:20px 0; text-align:center;">
+      준비 중입니다. 매니저에게 문의해주세요.
+    </div>
+  `;
+  return;
+}
 }
