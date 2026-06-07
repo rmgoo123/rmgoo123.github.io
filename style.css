@@ -63,7 +63,7 @@ nav {
   text-decoration: none;
   transition: background 0.2s, transform 0.2s !important;
 }
-.nav-cta:hover { background: var(--blue) !important; transform: translateY(-1px); }
+.nav-cta:hover { background: var(--navy) !important; transform: translateY(-1px); }
 
 /* ── HERO ─────────────────────────────────────── */
 .hero {
