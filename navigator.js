@@ -55,15 +55,23 @@ async function runAnalysis() {
 
   btn.classList.remove('loading');
 
-  document.getElementById('sc2').className = 'ps-circle done';
-  document.getElementById('sc2').textContent = '✓';
-  document.getElementById('sl2').className = 'ps-label';
-  document.getElementById('sd2').className = 'ps-desc';
-  document.getElementById('pl1').classList.add('done');
-  document.getElementById('pl2').classList.add('done');
-  document.getElementById('sc3').className = 'ps-circle active';
-  document.getElementById('sl3').className = 'ps-label active';
-  document.getElementById('sd3').className = 'ps-label active';
+const sc2 = document.getElementById('sc2');
+const sc3 = document.getElementById('sc3');
+const sl2 = document.getElementById('sl2');
+const sl3 = document.getElementById('sl3');
+const sd2 = document.getElementById('sd2');
+const sd3 = document.getElementById('sd3');
+const pl1 = document.getElementById('pl1');
+const pl2 = document.getElementById('pl2');
+
+if (sc2) { sc2.className = 'ps-circle done'; sc2.textContent = '✓'; }
+if (sl2) { sl2.className = 'ps-label'; }
+if (sd2) { sd2.className = 'ps-desc'; }
+if (pl1) { pl1.classList.add('done'); }
+if (pl2) { pl2.classList.add('done'); }
+if (sc3) { sc3.className = 'ps-circle active'; }
+if (sl3) { sl3.className = 'ps-label active'; }
+if (sd3) { sd3.className = 'ps-desc active'; }
 }
 
 
