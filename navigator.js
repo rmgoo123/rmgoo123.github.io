@@ -128,6 +128,23 @@ async function showResults() {
     </div>
   `).join('');
 
+   // 비용 계산
+const costs = steps.map(s => s.cost).filter(c => c !== '무료');
+const costSummary = costs.join(' + ');
+const costEl = document.getElementById('cost-big');
+if (costEl) costEl.textContent = costSummary || '—';
+
+// 기간 막대 그래프
+document.getElementById('bar-list').innerHTML = steps.map(s => `
+  <div class="bar-row">
+    <div class="bar-name">${s.step_text.substring(0, 4)}</div>
+    <div class="bar-wrap">
+      <div class="bar-fill" style="width:60%"></div>
+    </div>
+    <div class="bar-val">${s.duration}</div>
+  </div>
+`).join('');
+
   // 하단 바
   document.getElementById('total-period').textContent = '—';
   document.getElementById('bottom-tags').innerHTML = `
