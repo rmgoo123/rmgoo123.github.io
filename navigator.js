@@ -128,18 +128,56 @@ async function showResults() {
     </div>
   `).join('');
 
-   // 비용 계산
-const costs = steps.map(s => s.cost).filter(c => c !== '무료');
-const costSummary = costs.join(' + ');
+// 비용 파싱 함수
+function parseCost(costStr) {
+  if (!costStr || costStr === '무료') return { min: 0, max: 0 };
+
+  // 숫자만 추출 (만원 단위)
+  const numbers = costStr.match(/\d+/g);
+  if (!numbers) return { min: 0, max: 0 };
+
+  if (numbers.length === 1) {
+    return { min: parseInt(numbers[0]), max: parseInt(numbers[0]) };
+  }
+  return {
+    min: parseInt(numbers[0]),
+    max: parseInt(numbers[numbers.length - 1])
+  };
+}
+
+// 전체 비용 합산
+let totalMin = 0;
+let totalMax = 0;
+
+steps.forEach(s => {
+  const { min, max } = parseCost(s.cost);
+  totalMin += min;
+  totalMax += max;
+});
+
+// 화면에 표시
 const costEl = document.getElementById('cost-big');
-if (costEl) costEl.textContent = costSummary || '—';
+if (costEl) {
+  costEl.textContent = totalMin === totalMax
+    ? `${totalMin}만원`
+    : `${totalMin}~${totalMax}만원`;
+}
 
 // 기간 막대 그래프
+function parseWeeks(duration) {
+  if (!duration || duration === '당일') return 0.5; // 당일 = 5%용 작은 값
+  const numbers = duration.match(/\d+/g);
+  if (!numbers) return 1;
+  return parseInt(numbers[numbers.length - 1]); // 최대값 기준
+}
+
+const maxWeeks = Math.max(...steps.map(s => parseWeeks(s.duration)));
+
 document.getElementById('bar-list').innerHTML = steps.map(s => `
   <div class="bar-row">
     <div class="bar-name">${s.step_text.substring(0, 4)}</div>
     <div class="bar-wrap">
-      <div class="bar-fill" style="width:60%"></div>
+      <div class="bar-fill" style="width:${(parseWeeks(s.duration) / maxWeeks * 100).toFixed(0)}%"></div>
     </div>
     <div class="bar-val">${s.duration}</div>
   </div>
