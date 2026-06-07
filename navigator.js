@@ -8,7 +8,7 @@
    없는 조합은 'default'로 fallback
    ───────────────────────────────────────────── */
 
-const SUPABASE_URL = 'https://yeqyzaoyyqfdfiayjwnr.supabase.co/rest/v1/'  // 본인 URL
+const SUPABASE_URL = 'https://yeqyzaoyyqfdfiayjwnr.supabase.co'  // 본인 URL
 const SUPABASE_KEY = 'sb_publishable_5UGLVoMR2eQ9E3cXyLWPZg_vYxOEnqZ'     // publishable 키
 
 // Supabase에서 데이터 불러오는 함수
@@ -41,30 +41,6 @@ async function fetchDocs(countryA, countryB) {
 
 
 /* ─────────────────────────────────────────────
-   getDataKey()
-   선택된 값들로 DATA 키를 조합해서 반환
-   없는 조합은 fallback 키 반환
-   ───────────────────────────────────────────── */
-function getDataKey() {
-  const a      = document.getElementById('f-partner-a').value;
-  const b      = document.getElementById('f-partner-b').value;
-  const settle = document.getElementById('f-settle').value;
-  const visa   = document.getElementById('f-visa').value;
-
-  /* 둘 다 외국인 케이스 */
-  if (visa === 'both' || (a !== 'korea' && b !== 'korea')) {
-    return 'default_both_foreign';
-  }
-
-  /* 정착 국가 결정 */
-  const settleCountry = settle === 'korea' ? 'korea' : 'foreign';
-
-  /* 한국인이 A인지 B인지 파악해서 상대국 추출 */
-  const foreign = a === 'korea' ? b : a;
-  const key = `korea_${foreign}_${settleCountry}`;
-
-  return DATA[key] ? key : 'default';
-}
 
 
 /* ─────────────────────────────────────────────
@@ -95,19 +71,12 @@ async function runAnalysis() {
    showResults()
    DATA를 DOM에 렌더링
    ───────────────────────────────────────────── */
-좋아요! 이제 showResults() 함수도 수정해야 해요.
 
-showResults() 수정
-기존 showResults() 함수를 찾아서 전체 교체해요.
-지울 부분
-javascriptfunction showResults() {
-  const key = getDataKey();
-  const d   = DATA[key] || DATA['default'];
-  
-  // ... 전체 함수 내용
-}
-새로 넣을 내용
-javascriptasync function showResults() {
+
+
+
+
+async function showResults() {
   const countryA = document.getElementById('f-partner-a').value;
   const countryB = document.getElementById('f-partner-b').value;
   const settle   = document.getElementById('f-settle').value;
